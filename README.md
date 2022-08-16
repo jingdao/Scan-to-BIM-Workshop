@@ -1,9 +1,9 @@
 Tutorial on Scan-to-BIM using Python and Open3D
 ---
 
-*The 9th International Conference on Construction Engineering and Project Management (ICCEPM 2022)*
-
 In this tutorial, we will be using open-source software tools to create Building Information Models (BIM) from 3D point clouds. We will use simple functions in Python and Open3D to reconstruct building walls and floors from sensor data. This notebook will provide step-by-step instructions on how to implement common point clouds processing algorithms such as filtering, normal estimation, clustering, and robust parameter estimation.
+
+*This tutorial is presented at a workshop in conjunction with the 9th International Conference on Construction Engineering and Project Management (ICCEPM 2022)*
 
 **NumPy Library**
 
