@@ -6,7 +6,7 @@ class PointNet(nn.Module):
     def __init__(self, num_class=10):
         super(PointNet, self).__init__()
         self.num_class = num_class
-        self.conv1 = nn.Conv1d(3, 64, 1)
+        self.conv1 = nn.Conv1d(9, 64, 1)
         self.conv2 = nn.Conv1d(64, 128, 1)
         self.conv3 = nn.Conv1d(128, 1024, 1)
         self.conv4 = torch.nn.Conv1d(1088, 256, 1)

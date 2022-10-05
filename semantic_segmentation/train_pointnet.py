@@ -2,17 +2,14 @@
 import numpy as np
 import torch
 import torch.nn.functional as F
-import torch.nn as nn
-from torch.autograd import Variable
 from pointnet import PointNet
-from dataloader import SemSegDataset, class_names, class_colors
-import matplotlib.pyplot as plt
+from dataloader_s3dis import SemSegDataset, class_names, class_colors
 
 # training parameters
-learning_rate = 1e-4
+learning_rate = 2e-4
 batch_size = 10
-max_epochs = 100
-num_resampled_points = 256
+max_epochs = 1000
+num_resampled_points = 1024
 num_class = len(class_names)
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -23,9 +20,9 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 print('PointNet model:')
 print(model)
 
-train_dataset = SemSegDataset(root='data', split='train', N=num_resampled_points)
+train_dataset = SemSegDataset(root='data', area=1, N=num_resampled_points)
 train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
-validation_dataset = SemSegDataset(root='data', split='validation', N=num_resampled_points)
+validation_dataset = SemSegDataset(root='data', area=2, N=num_resampled_points)
 validation_dataloader = torch.utils.data.DataLoader(validation_dataset, batch_size=batch_size, shuffle=True, num_workers=1)
 num_train_batches = int(np.ceil(len(train_dataset) / batch_size))
 num_validation_batches = int(np.ceil(len(validation_dataset) / batch_size))
@@ -55,7 +52,7 @@ for epoch in range(max_epochs):
     train_accuracy = train_correct / len(train_dataset) / num_resampled_points
     print('[Epoch %d] train loss: %.3f accuracy: %.3f' % (epoch, train_loss, train_accuracy))
 
-    if epoch % 10 == 9: # run validation every 10 epochs
+    if epoch % 100 == 99: # run validation every 100 epochs
         validation_loss, validation_correct, validation_accuracy = 0, 0, 0
         tp_per_class = [0] * num_class
         fp_per_class = [0] * num_class
